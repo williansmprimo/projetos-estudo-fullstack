@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+.login-page{
+    width: 300px;
+    margin: 0 auto;
+}
+.trello-logo{
+    width: 50px;
+    margin: 0 auto;
+}
+.login-header{
+    width: 100%;
+}
+
+.login-name,
+.login-email,
+.login-username,
+.login-password,
+.login-register{
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.login-links{
+    width: 100%;
+}
+.login-link{
+    width: 100%;
+    margin: 0 auto;
+}
