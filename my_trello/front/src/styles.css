@@ -4,26 +4,25 @@
     margin: 0 auto;
 }
 .trello-logo{
-    width: 50px;
+    width: 100px;
     margin: 0 auto;
 }
-.login-header{
-    width: 100%;
-}
-
 .login-name,
 .login-email,
 .login-username,
 .login-password,
-.login-register{
+.login-button{
     width: 100%;
     margin-bottom: 5px;
 }
 
-.login-links{
+.login-header,
+.login-links,
+.login-body{
     width: 100%;
-}
-.login-link{
-    width: 100%;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
 }

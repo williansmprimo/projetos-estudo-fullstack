@@ -29,9 +29,9 @@ app.post("/api/users", userController.register);
 app.post("/api/users/login", userController.login);
 
 // curl -X GET localhost:3001/api/users
-app.use("/api/users", authMidelWare);
-app.get("/api/users", userController.currentUser);
-// app.get("/api/users", authMidelWare, userController.currentUser);
+// app.use("/api/users", authMidelWare);
+// app.get("/api/users", userController.currentUser);
+app.get("/api/users", authMidelWare, userController.currentUser);
 
 app.get("/api/users/list", userController.list);
 

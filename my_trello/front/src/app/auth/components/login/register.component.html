@@ -1,0 +1,21 @@
+<div class="login-page">
+    <p-card class="card-login">
+        <div class="login-body">
+            <a routerLink="/">
+                <img src="logo.svg" class="trello-logo">
+            </a>
+            <div class="login-header">Register to Trello</div>
+            <div class="errors"></div>
+            <form [formGroup]="form" (ngSubmit)="register()">
+                <input pInputText formControlName="name" type="text" placeholder="Name" class="login-name">
+                <input pInputText formControlName="email" type="email" placeholder="Email" class="login-email">
+                <input pInputText formControlName="username" type="text" placeholder="Username" class="login-username">
+                <input pPassword formControlName="password" type="password" placeholder="Password" class="login-password">
+                <button pButton type="submit" class="login-button">Register</button>
+            </form>
+            <div class="login-links">
+                <p-button label="Sign in" [link]="true" routerLink="/login" />
+            </div>
+        </div>
+    </p-card>
+</div>
