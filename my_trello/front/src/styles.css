@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 .login-page{
-    width: 300px;
+    width: 400px;
     margin: 0 auto;
 }
 .trello-logo{
@@ -25,4 +25,12 @@
     justify-content: center;
     align-items: center;
     padding: 5px;
+}
+
+.message{
+    width: 100%;
+}
+
+.home-description {
+    padding: 5%;
 }

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, filter, map } from "rxjs";
 import { LoginRequest, User } from "../types/user.interface";
 
 @Injectable()
@@ -9,15 +9,15 @@ export class AuthService {
     baseURL = environment.baseURL;
 
     currentUser$ = new BehaviorSubject<User | null | undefined>(undefined);
+    isLogged$ = this.currentUser$.pipe(
+        filter((user) => !!user),
+        map(Boolean)
+    );
 
     constructor(private http: HttpClient){}
 
     getCurrentUser(): Observable<User> {
-        return this.http.get<User>(this.baseURL + '/users', {
-            headers: {
-                authorization: "Bearer " + this.currentUser$.value?.token
-            }
-        })
+        return this.http.get<User>(this.baseURL + '/users',)
     }
 
     setCurrentUser(user: User | null){
@@ -31,15 +31,11 @@ export class AuthService {
         }
     }
 
-    getToken(){
-        return localStorage.getItem('tokne');
-    }
-
     register(user: User): Observable<User> {
         return this.http.post<User>(this.baseURL + '/users',user);
     }
 
     login(request: LoginRequest): Observable<User> {
-        return this.http.post<User>(this.baseURL + '/users',request);
+        return this.http.post<User>(this.baseURL + '/users/login',request);
     }
 }

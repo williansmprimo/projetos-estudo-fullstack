@@ -1,0 +1,23 @@
+<p-menubar>
+    <ng-template pTemplate="start">
+        <a routerLink="/">
+            <img src="logo.svg" class="trello-logo">
+        </a>
+    </ng-template>
+    <ng-template pTemplate="end">
+        <p-button label="Login" [link]="true" routerLink="/login" icon="pi pi-user"/>
+        <p-button label="Register" [link]="true" routerLink="/register" icon="pi pi-check"/>
+        <p-menuitem label="Register" routerLink="/register" icon="pi pi-check"/>
+    </ng-template>
+</p-menubar>
+<div class="grid home-description">
+    <div class="col col-offset-1 flex flex-column align-self-center">
+        <h1>Trello helps team to work more collaboratively and get more done.</h1>
+        <p>
+            Trello's boards, list and cards enable teams to reorganize and prioritize projects in a fun, flexible and rewarding way.
+        </p>
+    </div>
+    <div class="col col-offset-1">
+        <img src="hero.svg">
+    </div>
+</div>

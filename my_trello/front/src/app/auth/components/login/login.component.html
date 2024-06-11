@@ -5,10 +5,10 @@
                 <img src="logo.svg" class="trello-logo">
             </a>
             <div class="login-header">Login</div>
-            <div class="errors"></div>
+            <p-messages class="message" [(value)]="errorMessages" [closable]="false" />
             <form [formGroup]="form" (ngSubmit)="register()">
-                <input pInputText formControlName="username" type="text" placeholder="Username" class="login-username">
-                <input pPassword formControlName="password" type="password" placeholder="Password" class="login-password">
+                <input pInputText formControlName="username" type="text" placeholder="Username" class="login-username" />
+                <input pPassword [feedback]="false" formControlName="password" type="password" placeholder="Password" class="login-password" />
                 <button pButton type="submit" class="login-button">Login</button>
             </form>
             <div class="login-links">

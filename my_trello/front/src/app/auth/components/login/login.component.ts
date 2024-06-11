@@ -7,7 +7,9 @@ import { CardModule } from "primeng/card";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { LoginRequest } from "../../types/user.interface";
 import { HttpErrorResponse } from "@angular/common/http";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
+import { MessagesModule } from "primeng/messages";
+import { Message } from "primeng/api";
 
 @Component({
     selector: "auth-login",
@@ -19,11 +21,12 @@ import { RouterModule } from "@angular/router";
         ButtonModule,
         CardModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
+        MessagesModule
     ]
 })
 export class LoginCompoent{
-    error = '';
+    errorMessages: Message[] = [];
     form = this.formBuilder.group({
         username: ['', Validators.required],
         password: ['', Validators.required]
@@ -31,7 +34,8 @@ export class LoginCompoent{
 
     constructor(
         private authService: AuthService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private router: Router
     ){}
 
     register(){
@@ -42,9 +46,15 @@ export class LoginCompoent{
         this.authService.login(loginRequest).subscribe({
             next: (user) => {
                 this.authService.setCurrentUser(user);
+                this.errorMessages = [];
+                this.router.navigateByUrl('/');
             },
             error: (error: HttpErrorResponse) => {
-                this.error = error.error.join(', ');
+                this.errorMessages = [{
+                    summary: error.error.error,
+                    severity: "error"
+                }];
+                console.log('Errors:', this.errorMessages);
             }
         });
     }
