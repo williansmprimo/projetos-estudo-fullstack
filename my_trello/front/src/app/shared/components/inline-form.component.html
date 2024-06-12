@@ -1,0 +1,8 @@
+<div class="inline-form">
+    <div (click)="edit()" *ngIf="!isEditing" class="inline-form-title">{{ text }}</div>
+    <form *ngIf="isEditing" [formGroup]="form" (ngSubmit)="handleSubmit()">
+        <input pInputText *ngIf="type=='input'" type="text" formControlName="text" />
+        <textarea pInputText *ngIf="type=='textarea'" type="text" formControlName="text"></textarea>
+        <p-button *ngIf="showButton" type="submit" icon="pi pi-check"></p-button>
+    </form>
+</div>

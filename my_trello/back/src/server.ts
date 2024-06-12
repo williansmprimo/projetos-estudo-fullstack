@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import * as userController from "./controllers/user.controller"
+import * as boardController from "./controllers/board.controller"
 import authMidelWare from "./midlewares/auth"
 import cors from "cors"
 
@@ -34,6 +35,9 @@ app.post("/api/users/login", userController.login);
 app.get("/api/users", authMidelWare, userController.currentUser);
 
 app.get("/api/users/list", userController.list);
+
+app.get("/api/boards", authMidelWare, boardController.getBoards);
+app.post("/api/boards", authMidelWare, boardController.createBoard);
 
 // docker rm -v -f $(docker ps -qa)
 // Start mongo: docker run --rm -d -p 27017-27019:27017-27019 --name mongodb mongo:4.0.4

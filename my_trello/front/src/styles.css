@@ -34,3 +34,10 @@
 .home-description {
     padding: 5%;
 }
+
+.inline-form-title {
+    width: 300px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    padding: 10px;
+}

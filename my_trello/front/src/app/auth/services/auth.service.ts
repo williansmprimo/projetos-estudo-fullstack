@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, Observable, filter, map } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { LoginRequest, User } from "../types/user.interface";
 
 @Injectable()
@@ -9,10 +9,10 @@ export class AuthService {
     baseURL = environment.baseURL;
 
     currentUser$ = new BehaviorSubject<User | null | undefined>(undefined);
-    isLogged$ = this.currentUser$.pipe(
+    /*isLogged$ = this.currentUser$.pipe(
         filter((user) => !!user),
         map(Boolean)
-    );
+    );*/
 
     constructor(private http: HttpClient){}
 

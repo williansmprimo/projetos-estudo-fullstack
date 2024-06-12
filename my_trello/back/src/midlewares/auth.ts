@@ -1,8 +1,8 @@
 import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken"
 import { secrete } from "../config"
-import UserModel from "../models/UserModel";
-import { ExpressRequest } from "../types/express-request";
+import UserModel from "../models/user.model";
+import { ExpressRequest } from "../types/express-request.interface";
 
 export default async (req: ExpressRequest, res: Response, next: NextFunction) => {
     try {

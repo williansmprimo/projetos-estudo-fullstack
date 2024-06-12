@@ -6,6 +6,8 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { AuthService } from './auth/services/auth.service';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './auth/services/auth.interceptor.service';
+import { BoardService } from './shared/services/board.service';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +20,8 @@ export const appConfig: ApplicationConfig = {
       multi: true,
     },
     provideAnimations(),
-    AuthService
+    AuthService,
+    BoardService,
+    MessageService
   ]
 };

@@ -1,1 +1,12 @@
-Boards
+<div class="board-list">
+    <div class="board-item">
+        <inline-form (onSubmit)="handleSubmit($event)" text="Add new card!" [showButton]="true"></inline-form>
+    </div>
+    @for (item of boards; track item) {
+        <div class="board-item">
+            <p-card>
+                {{ item.title }}
+            </p-card>
+        </div>
+    }
+</div>
