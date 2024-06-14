@@ -4,6 +4,7 @@ import { Board } from "../shared/types/board.interface";
 import { MessageService } from "primeng/api";
 import { InlineFormModule } from "../shared/modules/inline-form.module";
 import { CardModule } from "primeng/card";
+import { TopBarComponent } from "../shared/components/top-bar/top-bar.componet";
 
 @Component({
     selector: "boards",
@@ -12,7 +13,8 @@ import { CardModule } from "primeng/card";
     standalone: true,
     imports: [
         InlineFormModule,
-        CardModule
+        CardModule,
+        TopBarComponent
     ]
 })
 export class BoardsComponent implements OnInit{
@@ -33,10 +35,14 @@ export class BoardsComponent implements OnInit{
         });
     }
 
-    handleSubmit(title: string){
+    newBoard(title: string){
         this.boardService.createBoard({ title: title })
         .subscribe(board => {
             this.boards = [...this.boards, board];
         })
+    }
+
+    editBoard(title: string, board: Board){
+        board.title = title;
     }
 }

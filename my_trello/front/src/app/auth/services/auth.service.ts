@@ -28,6 +28,8 @@ export class AuthService {
     setToken(user: User | null){
         if(user?.token){
             localStorage.setItem('token', user.token);
+        }else{
+            localStorage.removeItem('token');
         }
     }
 
@@ -37,5 +39,9 @@ export class AuthService {
 
     login(request: LoginRequest): Observable<User> {
         return this.http.post<User>(this.baseURL + '/users/login',request);
+    }
+
+    logout(){
+        this.setCurrentUser(null);
     }
 }

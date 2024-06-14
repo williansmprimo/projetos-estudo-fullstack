@@ -38,7 +38,7 @@ export class LoginCompoent{
         private router: Router
     ){}
 
-    register(){
+    login(){
         const loginRequest: LoginRequest = {
             username: String(this.form.get("username")?.value),
             password: String(this.form.get("password")?.value)
@@ -47,7 +47,7 @@ export class LoginCompoent{
             next: (user) => {
                 this.authService.setCurrentUser(user);
                 this.errorMessages = [];
-                this.router.navigateByUrl('/');
+                this.router.navigateByUrl('/boards');
             },
             error: (error: HttpErrorResponse) => {
                 this.errorMessages = [{

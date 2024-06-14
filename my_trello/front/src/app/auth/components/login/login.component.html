@@ -6,7 +6,7 @@
             </a>
             <div class="login-header">Login</div>
             <p-messages class="message" [(value)]="errorMessages" [closable]="false" />
-            <form [formGroup]="form" (ngSubmit)="register()">
+            <form [formGroup]="form" (ngSubmit)="login()">
                 <input pInputText formControlName="username" type="text" placeholder="Username" class="login-username" />
                 <input pPassword [feedback]="false" formControlName="password" type="password" placeholder="Password" class="login-password" />
                 <button pButton type="submit" class="login-button">Login</button>

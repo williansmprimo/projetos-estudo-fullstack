@@ -1,0 +1,14 @@
+<p-menubar [style]="{
+    backgroundColor: '#598dfa',
+    margin: '0px',
+    borderRadius: '0px',
+    border: '0px'
+}">
+    <ng-template pTemplate="start">
+        <p-button severity="primary" [style]="{marginRight: '5px'}" label="" routerLink="/boards" icon="pi pi-home"/>
+        <p-button severity="primary" label="" routerLink="/boards" icon="pi pi-objects-column"/>
+    </ng-template>
+    <ng-template pTemplate="end">
+        <p-button label="Logout" severity="primary" (click)="logout()" icon="pi pi-sign-out"/>
+    </ng-template>
+</p-menubar>

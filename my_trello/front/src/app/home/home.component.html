@@ -1,4 +1,9 @@
-<p-menubar>
+<p-menubar [style]="{
+    backgroundColor: '#ffffff',
+    margin: '0px',
+    borderRadius: '0px',
+    border: '0px'
+}">
     <ng-template pTemplate="start">
         <a routerLink="/">
             <img src="logo.svg" class="trello-logo">
@@ -6,8 +11,7 @@
     </ng-template>
     <ng-template pTemplate="end">
         <p-button label="Login" [link]="true" routerLink="/login" icon="pi pi-user"/>
-        <p-button label="Register" [link]="true" routerLink="/register" icon="pi pi-check"/>
-        <p-button label="Boards" [link]="true" routerLink="/boards" icon="pi pi-check"/>
+        <p-button label="Register" [link]="true" routerLink="/register" icon="pi pi-new"/>
 
     </ng-template>
 </p-menubar>
