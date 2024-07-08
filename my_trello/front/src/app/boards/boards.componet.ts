@@ -5,6 +5,9 @@ import { MessageService } from "primeng/api";
 import { InlineFormModule } from "../shared/modules/inline-form.module";
 import { CardModule } from "primeng/card";
 import { TopBarComponent } from "../shared/components/top-bar/top-bar.componet";
+import { ButtonModule } from "primeng/button";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
 
 @Component({
     selector: "boards",
@@ -14,7 +17,9 @@ import { TopBarComponent } from "../shared/components/top-bar/top-bar.componet";
     imports: [
         InlineFormModule,
         CardModule,
-        TopBarComponent
+        TopBarComponent,
+        ButtonModule,
+        RouterModule
     ]
 })
 export class BoardsComponent implements OnInit{

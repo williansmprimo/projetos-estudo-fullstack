@@ -4,6 +4,7 @@ import { RegisterCompoent } from './auth/components/register/register.component'
 import { HomeComponent } from './home/home.componet';
 import { BoardsComponent } from './boards/boards.componet';
 import { atuhGuard } from './auth/authGuard/auth.guard';
+import { BoardComponent } from './shared/components/board/board.component';
 
 
 export const routes: Routes = [
@@ -23,5 +24,10 @@ export const routes: Routes = [
         path: 'boards',
         component: BoardsComponent,
         canActivate: [atuhGuard]
+    },
+    {
+        path: 'boards/:id',
+        component: BoardComponent,
+        //canActivate: [atuhGuard]
     }
 ];

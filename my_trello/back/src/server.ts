@@ -14,7 +14,11 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 const httpServer = createServer(app);
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+    cors: {
+        origin: '*'
+    }
+});
 
 //METHODS
 app.get("/health", (req, res) => {
@@ -37,17 +41,18 @@ app.get("/api/users", authMidelWare, userController.currentUser);
 app.get("/api/users/list", userController.list);
 
 app.get("/api/boards", authMidelWare, boardController.getBoards);
+app.get("/api/boards/:id", authMidelWare, boardController.getBoard);
 app.post("/api/boards", authMidelWare, boardController.createBoard);
+
+//socket.io
+io.on("connection", () => {
+    console.log("connected to socket.io");
+});
 
 // docker rm -v -f $(docker ps -qa)
 // Start mongo: docker run --rm -d -p 27017-27019:27017-27019 --name mongodb mongo:4.0.4
 mongoose.connect("mongodb://localhost:27017/trello").then(() => {
     console.log("conected to mongodb!")
-
-    //socket.io
-    io.on("connection", () => {
-        console.log("connected to socket.io");
-    });
 
     // Start server
     httpServer.listen(3001, () => {

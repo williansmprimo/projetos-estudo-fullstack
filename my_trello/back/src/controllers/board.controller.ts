@@ -46,3 +46,22 @@ export const getBoards = async (req: ExpressRequest, res: Response, next: NextFu
         next(error);
     }
 };
+
+export const getBoard = async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    console.log('getBoard!id: ', req.params.id);
+    if(!req.user){
+        return res.sendStatus(401);
+    }
+    try {
+        const board = await BoardModel.findOne({
+            _id: req.params.id
+        });
+        if(board){
+            res.send(normalizeBoard(board));
+        }else{
+            res.sendStatus(400);
+        }
+    } catch (error) {
+        next(error);
+    }
+};

@@ -20,6 +20,9 @@
             }">
                 <inline-form (onSubmit)="editBoard($event, item)" [text]="item.title" [showButton]="true"></inline-form>
             </p-card>
+            <span class="board-item-open">
+                <p-button [link]="true" icon="pi pi-chevron-circle-right" routerLink="/boards/{{item.id}}"></p-button>
+            </span>
         </div>
     }
 </div>

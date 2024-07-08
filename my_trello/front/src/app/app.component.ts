@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { AuthService } from './auth/services/auth.service';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,22 +8,8 @@ import { AuthService } from './auth/services/auth.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit{
+export class AppComponent{
   title = 'trello';
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ){}
-
-  ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe({
-      next: (user) => {
-        this.authService.setCurrentUser(user);
-      },
-      error: (error) => {
-        this.authService.setCurrentUser(null);
-      }
-    });
-  }
+  constructor(){}
 }

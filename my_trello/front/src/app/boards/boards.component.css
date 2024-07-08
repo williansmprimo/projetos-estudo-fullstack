@@ -7,4 +7,11 @@
 .board-item{
     min-width: 300px;
     margin: 5px;
+    position: relative;
+}
+
+.board-item-open{
+    position: absolute;
+    right: 0px;
+    top: 0px;
 }

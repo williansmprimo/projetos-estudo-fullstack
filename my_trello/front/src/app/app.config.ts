@@ -8,6 +8,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './auth/services/auth.interceptor.service';
 import { BoardService } from './shared/services/board.service';
 import { MessageService } from 'primeng/api';
+import { SocketIoService } from './shared/services/socket.io.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     AuthService,
     BoardService,
-    MessageService
+    MessageService,
+    SocketIoService
   ]
 };
