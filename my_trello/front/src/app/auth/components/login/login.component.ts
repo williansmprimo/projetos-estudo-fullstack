@@ -10,6 +10,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Router, RouterModule } from "@angular/router";
 import { MessagesModule } from "primeng/messages";
 import { Message } from "primeng/api";
+import { SocketIoService } from "../../../shared/services/socket.io.service";
 
 @Component({
     selector: "auth-login",
@@ -35,7 +36,8 @@ export class LoginCompoent{
     constructor(
         private authService: AuthService,
         private formBuilder: FormBuilder,
-        private router: Router
+        private router: Router,
+        private socketService: SocketIoService
     ){}
 
     login(){
@@ -46,6 +48,7 @@ export class LoginCompoent{
         this.authService.login(loginRequest).subscribe({
             next: (user) => {
                 this.authService.setCurrentUser(user);
+                this.socketService.setupConnection(user);
                 this.errorMessages = [];
                 this.router.navigateByUrl('/boards');
             },

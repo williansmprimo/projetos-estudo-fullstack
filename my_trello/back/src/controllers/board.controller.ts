@@ -3,6 +3,7 @@ import { Error } from "mongoose"
 import { ExpressRequest } from "../types/express-request.interface";
 import { BoardDocument } from "../types/board.interface";
 import { BoardModel } from "../models/board.model";
+import { Server, Socket } from "socket.io";
 
 const normalizeBoard = (board: BoardDocument) => {
     return {
@@ -64,4 +65,14 @@ export const getBoard = async (req: ExpressRequest, res: Response, next: NextFun
     } catch (error) {
         next(error);
     }
+};
+
+export const joinBoard = (io: Server, socket: Socket, data: { boardId: string }) => {
+    console.log('Joined boarID: ', data.boardId);
+    socket.join(data.boardId);
+};
+
+export const leaveBoard = (io: Server, socket: Socket, data: { boardId: string }) => {
+    console.log('Leave boarID: ', data.boardId);
+    socket.join(data.boardId);
 };

@@ -7,6 +7,7 @@ import * as userController from "./controllers/user.controller"
 import * as boardController from "./controllers/board.controller"
 import authMidelWare from "./midlewares/auth"
 import cors from "cors"
+import { SocketEvents } from "./types/socket.events.enum";
 
 //Setup
 const app = express();
@@ -45,8 +46,14 @@ app.get("/api/boards/:id", authMidelWare, boardController.getBoard);
 app.post("/api/boards", authMidelWare, boardController.createBoard);
 
 //socket.io
-io.on("connection", () => {
-    console.log("connected to socket.io");
+io.on("connection", (socket) => {
+    socket.on(SocketEvents.boardsJoin, (data) => {
+        boardController.joinBoard(io, socket, data);
+    });
+
+    socket.on(SocketEvents.boardsLeave, (data) => {
+        boardController.leaveBoard(io, socket, data);
+    });
 });
 
 // docker rm -v -f $(docker ps -qa)

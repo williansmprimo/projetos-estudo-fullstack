@@ -7,7 +7,7 @@ import { User } from "../../auth/types/user.interface";
 @Injectable()
 export class SocketIoService {
 
-    baseURL = environment.baseURL;
+    baseURL = environment.socketIOURL;
     socket?: Socket;
 
     constructor(private http: HttpClient){}
@@ -22,5 +22,9 @@ export class SocketIoService {
 
     disconnect(){
         this.socket?.disconnect();
+    }
+
+    emit(eventName: string, message: any){
+        this.socket?.emit(eventName, message);
     }
 }
