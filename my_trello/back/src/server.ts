@@ -5,9 +5,14 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import * as userController from "./controllers/user.controller"
 import * as boardController from "./controllers/board.controller"
+import * as columnController from "./controllers/column.controller"
 import authMidelWare from "./midlewares/auth"
 import cors from "cors"
 import { SocketEvents } from "./types/socket.events.enum";
+import jwt from "jsonwebtoken"
+import { secrete } from "./config";
+import UserModel from "./models/user.model";
+import { UserSocker } from "./types/socket.interface";
 
 //Setup
 const app = express();
@@ -43,16 +48,37 @@ app.get("/api/users/list", userController.list);
 
 app.get("/api/boards", authMidelWare, boardController.getBoards);
 app.get("/api/boards/:id", authMidelWare, boardController.getBoard);
+app.get("/api/boards/:id/columns", authMidelWare, columnController.getColumns);
 app.post("/api/boards", authMidelWare, boardController.createBoard);
 
 //socket.io
-io.on("connection", (socket) => {
+io.use(async (socket: UserSocker, next) =>{
+    try{
+        const token = socket.handshake.auth.token as string ?? "";
+        const data = jwt.verify(token, secrete) as { id: string };
+        const user = await UserModel.findById(data.id);
+        if(!user){
+            return next(new Error("Authentication error!"));
+        }
+        socket.user = user;
+        next();
+    } catch (error) {
+        return next(new Error("Authentication error!"));
+    }
+}).on("connection", (socket: UserSocker) => {
     socket.on(SocketEvents.boardsJoin, (data) => {
+        console.log("userID:", socket.user?.id);
         boardController.joinBoard(io, socket, data);
     });
 
     socket.on(SocketEvents.boardsLeave, (data) => {
+        console.log("userID:", socket.user?.id);
         boardController.leaveBoard(io, socket, data);
+    });
+
+    socket.on(SocketEvents.createColumn, (data) => {
+        console.log("userID:", socket.user?.id);
+        columnController.createColumn(io, socket, data);
     });
 });
 

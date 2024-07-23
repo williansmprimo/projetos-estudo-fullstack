@@ -1,11 +1,25 @@
-<inline-form *ngIf="board$" (onSubmit)="editTitle($event)" text="{{ (board$ | async)?.title }}" [showButton]="true"></inline-form>
-<p-card
-    [style]="{ 
-        border: '1px solid #aaaaaa',  
-        borderRadius: '10px',
-        width: '350px',  
-        backgroundColor: '#66CDAA'
-    }"
->
-    <inline-form (onSubmit)="newCard($event)" text="New card!" [showButton]="true"></inline-form>
-</p-card>
+<div *ngIf="data$ | async as data">
+    <inline-form (onSubmit)="editTitle($event)" text="{{ data.board.title }}" [showButton]="true"></inline-form>
+    @for(column of data.columns; track column){
+        <p-card
+            [style]="{ 
+                border: '1px solid #aaaaaa',  
+                borderRadius: '10px',
+                width: '350px',  
+                backgroundColor: '#66CDAA'
+            }"
+        >
+            {{ column.title }}
+        </p-card>
+    }
+    <p-card
+        [style]="{ 
+            border: '1px solid #aaaaaa',  
+            borderRadius: '10px',
+            width: '350px',  
+            backgroundColor: '#66CDAA'
+        }"
+    >
+        <inline-form (onSubmit)="newColumn($event)" text="New column!" [showButton]="true"></inline-form>
+    </p-card>
+</div>

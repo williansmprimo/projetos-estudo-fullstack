@@ -5,9 +5,10 @@ import { BoardService } from "../../services/board.service";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { Board } from "../../types/board.interface";
 import { CommonModule } from "@angular/common";
-import { filter, Observable } from "rxjs";
+import { combineLatest, filter, map, Observable } from "rxjs";
 import { SocketIoService } from "../../services/socket.io.service";
 import { SocketEvents } from "../../types/socket.events.enum";
+import { Column } from "../../types/column.interface";
 
 @Component({
     selector: "board",
@@ -20,8 +21,8 @@ import { SocketEvents } from "../../types/socket.events.enum";
     ]
 })
 export class BoardComponent implements OnInit{
-    board$: Observable<Board>;
-    boardId: string = '';
+    data$: Observable<{board: Board, columns: Column[]}>;
+    boardId: string = "";
 
     constructor(
         private service: BoardService,
@@ -29,7 +30,13 @@ export class BoardComponent implements OnInit{
         private router: Router,
         private socketIoService: SocketIoService
     ){
-        this.board$ = this.service.actualBoard$.pipe(filter(Boolean));
+        this.data$ = combineLatest([
+            this.service.actualBoard$.pipe(filter(Boolean)),
+            this.service.columns$
+        ]).pipe(map(([actualBoard, columns]) => ({
+            board: actualBoard,
+            columns: columns
+        })));
     }
 
     ngOnInit(): void {
@@ -38,11 +45,15 @@ export class BoardComponent implements OnInit{
             this.socketIoService.emit(SocketEvents.boardsJoin, { boardId: this.boardId });
             this.service.getBoard(this.boardId).subscribe((board) => {
                 this.service.setActualBoard(board);
-            })
+            });
+            this.service.getColumns(this.boardId).subscribe(columns => {
+                this.service.setColumns(columns);
+            });
         })
         this.router.events.subscribe(event => {
             if(event instanceof NavigationStart){
                 console.log('Leaving the board!');
+                this.service.setActualBoard(null);
                 this.socketIoService.emit(SocketEvents.boardsLeave, { boardId: this.boardId });
             }
         })
@@ -52,7 +63,12 @@ export class BoardComponent implements OnInit{
         console.log(title);
     }
 
-    newCard(title: string){
-        console.log(title);
+    newColumn(title: string){
+        const column: Column = {
+            title: title,
+            boardId: this.boardId
+        };
+        console.log(column);
+        this.service.createColumn(column);
     }
 }

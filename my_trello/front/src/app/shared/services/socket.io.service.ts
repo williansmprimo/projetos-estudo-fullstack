@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
-import { HttpClient } from "@angular/common/http";
 import { io, Socket } from 'socket.io-client'
 import { User } from "../../auth/types/user.interface";
 
@@ -10,7 +9,7 @@ export class SocketIoService {
     baseURL = environment.socketIOURL;
     socket?: Socket;
 
-    constructor(private http: HttpClient){}
+    constructor(){}
 
     setupConnection(user: User){
         this.socket = io(this.baseURL, {
