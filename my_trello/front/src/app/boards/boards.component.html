@@ -7,7 +7,7 @@
             width: '350px',  
             backgroundColor: '#66CDAA'
         }">
-            <inline-form (onSubmit)="newBoard($event)" text="Add new card!" [showButton]="true"></inline-form>
+            <inline-form (onSubmit)="newBoard($event)" text="New board!" [showButton]="true"></inline-form>
         </p-card>
     </div>
     @for (item of boards; track item) {

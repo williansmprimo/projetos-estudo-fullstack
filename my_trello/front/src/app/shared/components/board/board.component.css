@@ -1,0 +1,44 @@
+.board-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: #cccccc;
+    justify-content: space-between;
+}
+
+.board-container-top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: #bbbbbb;
+    justify-content: space-between;
+}
+
+.new-button {
+    border-radius: 5px;
+    background-color: #3B82F6;
+    padding: 5px;
+    margin: 5px;
+}
+
+.column {
+    border-right: 1px solid #ffffff;
+    flex: 1;
+    padding: 5px;
+}
+
+.column-title{
+    padding: 5px;
+    font-weight: bold;
+}
+
+.tasks{
+    border-radius: 5px;
+    padding: 5px;
+    background-color: rgb(134, 158, 166);;
+}
+
+.board-title{
+    padding: 5px;
+    font-weight: bold;
+}

@@ -1,25 +1,24 @@
+<top-bar></top-bar>
 <div *ngIf="data$ | async as data">
-    <inline-form (onSubmit)="editTitle($event)" text="{{ data.board.title }}" [showButton]="true"></inline-form>
-    @for(column of data.columns; track column){
-        <p-card
-            [style]="{ 
-                border: '1px solid #aaaaaa',  
-                borderRadius: '10px',
-                width: '350px',  
-                backgroundColor: '#66CDAA'
-            }"
-        >
-            {{ column.title }}
-        </p-card>
-    }
-    <p-card
-        [style]="{ 
-            border: '1px solid #aaaaaa',  
-            borderRadius: '10px',
-            width: '350px',  
-            backgroundColor: '#66CDAA'
-        }"
-    >
-        <inline-form (onSubmit)="newColumn($event)" text="New column!" [showButton]="true"></inline-form>
-    </p-card>
+    <div class="board-container-top">
+        <div class="board-title">
+            <inline-form (onSubmit)="editTitle($event)" text="{{ data.board.title }}" [showButton]="true"></inline-form>
+        </div>
+        <div class="new-button">
+            <inline-form (onSubmit)="newColumn($event)" text="New column!" [showButton]="true"></inline-form>
+        </div>
+    </div>
+    <div class="board-container">
+        @for(column of data.columns; track column){
+            <div class="column">
+                <div class="column-title">
+                    {{ column.title }}
+                </div>
+                <!-- for -->
+                <div class="tasks">
+                    <inline-form (onSubmit)="newTask($event)" text="New task" [showButton]="true"></inline-form>
+                </div>
+            </div>
+        }
+    </div>
 </div>

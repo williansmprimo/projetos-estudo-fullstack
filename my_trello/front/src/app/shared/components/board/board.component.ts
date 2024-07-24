@@ -5,17 +5,20 @@ import { BoardService } from "../../services/board.service";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { Board } from "../../types/board.interface";
 import { CommonModule } from "@angular/common";
-import { combineLatest, filter, map, Observable } from "rxjs";
+import { combineLatest, filter, map, Observable, Subscription } from "rxjs";
 import { SocketIoService } from "../../services/socket.io.service";
 import { SocketEvents } from "../../types/socket.events.enum";
 import { Column } from "../../types/column.interface";
+import { TopBarComponent } from "../top-bar/top-bar.componet";
 
 @Component({
     selector: "board",
     templateUrl: "board.component.html",
+    styleUrl: "board.component.css",
     standalone: true,
     imports: [
         InlineFormModule,
+        TopBarComponent,
         CardModule,
         CommonModule
     ]
@@ -23,6 +26,7 @@ import { Column } from "../../types/column.interface";
 export class BoardComponent implements OnInit{
     data$: Observable<{board: Board, columns: Column[]}>;
     boardId: string = "";
+    subscription!: Subscription;
 
     constructor(
         private service: BoardService,
@@ -49,14 +53,19 @@ export class BoardComponent implements OnInit{
             this.service.getColumns(this.boardId).subscribe(columns => {
                 this.service.setColumns(columns);
             });
-        })
+        });
         this.router.events.subscribe(event => {
             if(event instanceof NavigationStart){
                 console.log('Leaving the board!');
                 this.service.setActualBoard(null);
                 this.socketIoService.emit(SocketEvents.boardsLeave, { boardId: this.boardId });
+                this.subscription?.unsubscribe();
             }
-        })
+        });
+        this.subscription = this.socketIoService.listem<Column>(SocketEvents.createColumnSucess).subscribe(column => {
+            console.log(column);
+            this.service.addColumn(column);
+        });
     }
 
     editTitle(title: string){
@@ -70,5 +79,9 @@ export class BoardComponent implements OnInit{
         };
         console.log(column);
         this.service.createColumn(column);
+    }
+
+    newTask(title: string){
+        console.log(title);
     }
 }

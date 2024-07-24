@@ -83,6 +83,7 @@ io.use(async (socket: UserSocker, next) =>{
 });
 
 // docker rm -v -f $(docker ps -qa)
+// docker exec -it mongodb
 // Start mongo: docker run --rm -d -p 27017-27019:27017-27019 --name mongodb mongo:4.0.4
 mongoose.connect("mongodb://localhost:27017/trello").then(() => {
     console.log("conected to mongodb!")

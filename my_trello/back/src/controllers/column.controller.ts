@@ -10,7 +10,7 @@ export const getColumns = async (req: ExpressRequest, res: Response, next: NextF
     if(!req.user){
         return res.sendStatus(402);
     }
-    console.log("getColumns: ", req.params.boardId);
+    console.log("getColumns: ", req.params.id);
     try{
         const columns = await ColumnModel.find({
             boardId: req.params.id
@@ -27,6 +27,7 @@ export const getColumns = async (req: ExpressRequest, res: Response, next: NextF
 export const createColumn = async (io: Server, socket: UserSocker, data: any) => {
     if(!socket.user){
         socket.emit(SocketEvents.createColumnFail, new Error("Authentication error!"));
+        return ;
     }
     console.log("createColumn: ", data);
     try{
@@ -36,14 +37,16 @@ export const createColumn = async (io: Server, socket: UserSocker, data: any) =>
             userId: socket.user?.id
         });
         const column = await newColumn.save();
-        socket.emit(SocketEvents.createColumnSucess, column);
+        // Emits to ever one that is registered to this boradId
+        io.to(data.boardId).emit(SocketEvents.createColumnSucess, column);
     }catch(error){
         if(error instanceof Error.ValidationError){
             socket.emit(
                 SocketEvents.createColumnFail,
                 Object.values(error.errors).map((err) => err.message)
             );
+            return ;
         }
-        // socket.emit(SocketEvents.createColumnFail,error);
+        socket.emit(SocketEvents.createColumnFail,error);
     }
 };
