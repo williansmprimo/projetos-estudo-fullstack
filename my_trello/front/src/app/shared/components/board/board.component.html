@@ -14,9 +14,13 @@
                 <div class="column-title">
                     {{ column.title }}
                 </div>
-                <!-- for -->
+                @for(task of filterByColumn(data.tasks, column._id); track task){
+                    <div class="tasks">
+                        <inline-form (onSubmit)="editTask($event)" text="{{ task.title }}" [showButton]="true"></inline-form>
+                    </div>
+                }
                 <div class="tasks">
-                    <inline-form (onSubmit)="newTask($event)" text="New task" [showButton]="true"></inline-form>
+                    <inline-form (onSubmit)="newTask($event, column)" text="New task" [showButton]="true"></inline-form>
                 </div>
             </div>
         }

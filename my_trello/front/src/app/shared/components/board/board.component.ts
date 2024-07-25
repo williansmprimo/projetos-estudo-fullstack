@@ -10,6 +10,7 @@ import { SocketIoService } from "../../services/socket.io.service";
 import { SocketEvents } from "../../types/socket.events.enum";
 import { Column } from "../../types/column.interface";
 import { TopBarComponent } from "../top-bar/top-bar.componet";
+import { Task } from "../../types/task.interface";
 
 @Component({
     selector: "board",
@@ -24,9 +25,10 @@ import { TopBarComponent } from "../top-bar/top-bar.componet";
     ]
 })
 export class BoardComponent implements OnInit{
-    data$: Observable<{board: Board, columns: Column[]}>;
+    data$: Observable<{board: Board, columns: Column[], tasks: Task[]}>;
     boardId: string = "";
-    subscription!: Subscription;
+    columSubscription!: Subscription;
+    taskSubscription!: Subscription;
 
     constructor(
         private service: BoardService,
@@ -36,10 +38,12 @@ export class BoardComponent implements OnInit{
     ){
         this.data$ = combineLatest([
             this.service.actualBoard$.pipe(filter(Boolean)),
-            this.service.columns$
-        ]).pipe(map(([actualBoard, columns]) => ({
+            this.service.columns$,
+            this.service.tasks$
+        ]).pipe(map(([actualBoard, columns, tasks]) => ({
             board: actualBoard,
-            columns: columns
+            columns: columns,
+            tasks: tasks
         })));
     }
 
@@ -53,22 +57,34 @@ export class BoardComponent implements OnInit{
             this.service.getColumns(this.boardId).subscribe(columns => {
                 this.service.setColumns(columns);
             });
+            this.service.getTasks(this.boardId).subscribe(tasks => {
+                this.service.setTasks(tasks);
+            });
         });
         this.router.events.subscribe(event => {
             if(event instanceof NavigationStart){
                 console.log('Leaving the board!');
                 this.service.setActualBoard(null);
                 this.socketIoService.emit(SocketEvents.boardsLeave, { boardId: this.boardId });
-                this.subscription?.unsubscribe();
+                this.columSubscription?.unsubscribe();
+                this.taskSubscription?.unsubscribe();
             }
         });
-        this.subscription = this.socketIoService.listem<Column>(SocketEvents.createColumnSucess).subscribe(column => {
+        this.columSubscription = this.socketIoService.listem<Column>(SocketEvents.createColumnSucess).subscribe(column => {
             console.log(column);
             this.service.addColumn(column);
+        });
+        this.taskSubscription = this.socketIoService.listem<Task>(SocketEvents.createTaskSucess).subscribe(task => {
+            console.log(task);
+            this.service.addTask(task);
         });
     }
 
     editTitle(title: string){
+        console.log(title);
+    }
+
+    editTask(title: string){
         console.log(title);
     }
 
@@ -81,7 +97,19 @@ export class BoardComponent implements OnInit{
         this.service.createColumn(column);
     }
 
-    newTask(title: string){
+    newTask(title: string, column: Column){
         console.log(title);
+        const newTask: Task = {
+            title: title,
+            description: title,
+            boardId: this.boardId,
+            columnId: column._id
+        };
+        console.log(newTask);
+        this.service.createTask(newTask);
+    }
+
+    filterByColumn(tasks: Task[], columnId: string | undefined){
+        return tasks.filter(task => task.columnId === columnId);
     }
 }

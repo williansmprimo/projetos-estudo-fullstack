@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import * as userController from "./controllers/user.controller"
 import * as boardController from "./controllers/board.controller"
 import * as columnController from "./controllers/column.controller"
+import * as taskController from "./controllers/task.controller"
 import authMidelWare from "./midlewares/auth"
 import cors from "cors"
 import { SocketEvents } from "./types/socket.events.enum";
@@ -49,6 +50,7 @@ app.get("/api/users/list", userController.list);
 app.get("/api/boards", authMidelWare, boardController.getBoards);
 app.get("/api/boards/:id", authMidelWare, boardController.getBoard);
 app.get("/api/boards/:id/columns", authMidelWare, columnController.getColumns);
+app.get("/api/boards/:id/tasks", authMidelWare, taskController.getTasks);
 app.post("/api/boards", authMidelWare, boardController.createBoard);
 
 //socket.io
@@ -79,6 +81,11 @@ io.use(async (socket: UserSocker, next) =>{
     socket.on(SocketEvents.createColumn, (data) => {
         console.log("userID:", socket.user?.id);
         columnController.createColumn(io, socket, data);
+    });
+
+    socket.on(SocketEvents.createTask, (data) => {
+        console.log("userID:", socket.user?.id);
+        taskController.createTask(io, socket, data);
     });
 });
 

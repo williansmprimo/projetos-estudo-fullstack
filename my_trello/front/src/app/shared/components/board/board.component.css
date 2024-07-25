@@ -35,7 +35,8 @@
 .tasks{
     border-radius: 5px;
     padding: 5px;
-    background-color: rgb(134, 158, 166);;
+    background-color: rgb(134, 158, 166);
+    margin: 5px;
 }
 
 .board-title{
