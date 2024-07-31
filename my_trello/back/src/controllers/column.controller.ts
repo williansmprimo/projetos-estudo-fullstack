@@ -5,6 +5,7 @@ import { UserSocker } from "../types/socket.interface";
 import { Error } from "mongoose"
 import { ColumnModel } from "../models/column.model";
 import { SocketEvents } from "../types/socket.events.enum";
+import { ColumnDocument } from "../types/column.interface";
 
 export const getColumns = async (req: ExpressRequest, res: Response, next: NextFunction) => {
     if(!req.user){
@@ -48,5 +49,26 @@ export const createColumn = async (io: Server, socket: UserSocker, data: any) =>
             return ;
         }
         socket.emit(SocketEvents.createColumnFail,error);
+    }
+};
+
+export const updateColumn = async (io: Server, socket: UserSocker, data: { boardId: string, _id: string, title: string }) => {
+    console.log('updateColumn columnId: ', data._id);
+    if(!socket.user){
+        socket.emit(SocketEvents.updateColumnFail, new Error("Authentication error!"));
+        return ;
+    }
+    try{
+        const  updatedColumn = await ColumnModel.findByIdAndUpdate(data._id, { title: data.title }, { new: true });
+        io.to(data.boardId).emit(SocketEvents.updateColumnSucess, updatedColumn);
+    }catch(error){
+        if(error instanceof Error.ValidationError){
+            socket.emit(
+                SocketEvents.updateColumnFail,
+                Object.values(error.errors).map((err) => err.message)
+            );
+            return ;
+        }
+        socket.emit(SocketEvents.updateColumnFail,error);
     }
 };

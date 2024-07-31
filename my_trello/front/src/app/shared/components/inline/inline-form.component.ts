@@ -10,6 +10,7 @@ export class InlineFormComponent {
     @Input() text = '';
     @Input() type = 'input';
     @Input() showButton = false
+    @Input() activeBlur = true;
 
     @Output() onSubmit = new EventEmitter<string>();
 

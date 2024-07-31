@@ -4,6 +4,7 @@
         <div class="board-title">
             <inline-form (onSubmit)="editTitle($event)" text="{{ data.board.title }}" [showButton]="true"></inline-form>
         </div>
+        <p-button (click)="deleteBoard()" icon="pi pi-trash" severity="danger" size="small"></p-button>
         <div class="new-button">
             <inline-form (onSubmit)="newColumn($event)" text="New column!" [showButton]="true"></inline-form>
         </div>
@@ -12,17 +13,18 @@
         @for(column of data.columns; track column){
             <div class="column">
                 <div class="column-title">
-                    {{ column.title }}
+                    <inline-form  [activeBlur]="true" (onSubmit)="editColumn($event, column)" text="{{ column.title }}" [showButton]="true"></inline-form>
                 </div>
                 @for(task of filterByColumn(data.tasks, column._id); track task){
-                    <div class="tasks">
-                        <inline-form (onSubmit)="editTask($event)" text="{{ task.title }}" [showButton]="true"></inline-form>
+                    <div class="tasks" (click)="openTask(task._id)">
+                        {{ task.title }}
                     </div>
                 }
-                <div class="tasks">
-                    <inline-form (onSubmit)="newTask($event, column)" text="New task" [showButton]="true"></inline-form>
+                <div class="tasks new-task">
+                    <inline-form  [activeBlur]="false" (onSubmit)="newTask($event, column)" text="New task" [showButton]="true"></inline-form>
                 </div>
             </div>
         }
     </div>
 </div>
+<router-outlet />

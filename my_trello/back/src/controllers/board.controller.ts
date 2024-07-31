@@ -4,6 +4,8 @@ import { ExpressRequest } from "../types/express-request.interface";
 import { BoardDocument } from "../types/board.interface";
 import { BoardModel } from "../models/board.model";
 import { Server, Socket } from "socket.io";
+import { UserSocker } from "../types/socket.interface";
+import { SocketEvents } from "../types/socket.events.enum";
 
 const normalizeBoard = (board: BoardDocument) => {
     return {
@@ -75,4 +77,25 @@ export const joinBoard = (io: Server, socket: Socket, data: { boardId: string })
 export const leaveBoard = (io: Server, socket: Socket, data: { boardId: string }) => {
     console.log('Leave boarID: ', data.boardId);
     socket.leave(data.boardId);
+};
+
+export const deleteBoard = async (io: Server, socket: UserSocker, data: { boardId: string }) => {
+    console.log('deleteBoard boarID: ', data.boardId);
+    if(!socket.user){
+        socket.emit(SocketEvents.deleteBoardFail, new Error("Authentication error!"));
+        return ;
+    }
+    try{
+        await BoardModel.deleteOne({ _id: data.boardId });
+        io.to(data.boardId).emit(SocketEvents.deleteBoardSucess);
+    }catch(error){
+        if(error instanceof Error.ValidationError){
+            socket.emit(
+                SocketEvents.deleteBoardFail,
+                Object.values(error.errors).map((err) => err.message)
+            );
+            return ;
+        }
+        socket.emit(SocketEvents.deleteBoardFail,error);
+    }
 };

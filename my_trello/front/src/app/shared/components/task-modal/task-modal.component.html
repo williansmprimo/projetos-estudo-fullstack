@@ -1,0 +1,8 @@
+<div class="task-modal" *ngIf="task$ | async as task">
+    <div class="modal-title">
+        {{ task.title }}
+        <p-button [link]="true" icon="pi pi-times" routerLink="/boards/{{ boardId }}" size="small"></p-button>
+    </div>
+    <div class="modal-body">{{ task.description }}</div>
+</div>
+<div class="modal-backdrop"></div>

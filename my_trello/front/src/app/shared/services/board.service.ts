@@ -62,6 +62,21 @@ export class BoardService {
         return this.http.post<Board>(this.baseURL + "/boards", board);
     }
 
+    deleteBoard(boardId: string){
+        this.soketService.emit(SocketEvents.deleteBoard, { boardId });
+    }
+
+    updateColumn(column: Column){
+        this.soketService.emit(SocketEvents.updateColumn, column);
+    }
+
+    updateColumnLocal(updatedColumn: Column){
+        const columns = this.columns$.getValue();
+        let index = columns.findIndex(column => column._id === updatedColumn._id);
+        columns[index] = updatedColumn;
+        this.columns$.next(columns);
+    }
+
     setActualBoard(board: Board | null){
         this.actualBoard$.next(board);
     }

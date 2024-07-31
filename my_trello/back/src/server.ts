@@ -87,6 +87,16 @@ io.use(async (socket: UserSocker, next) =>{
         console.log("userID:", socket.user?.id);
         taskController.createTask(io, socket, data);
     });
+
+    socket.on(SocketEvents.deleteBoard, (data) => {
+        console.log("userID:", socket.user?.id);
+        boardController.deleteBoard(io, socket, data);
+    });
+
+    socket.on(SocketEvents.updateColumn, (data) => {
+        console.log("userID:", socket.user?.id);
+        columnController.updateColumn(io, socket, data);
+    });
 });
 
 // docker rm -v -f $(docker ps -qa)

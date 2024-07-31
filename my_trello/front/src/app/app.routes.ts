@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.componet';
 import { BoardsComponent } from './boards/boards.componet';
 import { atuhGuard } from './auth/authGuard/auth.guard';
 import { BoardComponent } from './shared/components/board/board.component';
+import { TaskModalCompoent } from './shared/components/task-modal/task-modal.component';
 
 
 export const routes: Routes = [
@@ -28,6 +29,12 @@ export const routes: Routes = [
     {
         path: 'boards/:id',
         component: BoardComponent,
+        children: [
+            {
+                path: "tasks/:taskId",
+                component: TaskModalCompoent
+            }
+        ]
         //canActivate: [atuhGuard]
     }
 ];

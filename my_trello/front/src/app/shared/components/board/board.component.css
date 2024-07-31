@@ -12,6 +12,7 @@
     flex-wrap: wrap;
     background-color: #bbbbbb;
     justify-content: space-between;
+    padding: 5px;
 }
 
 .new-button {
@@ -37,6 +38,10 @@
     padding: 5px;
     background-color: rgb(134, 158, 166);
     margin: 5px;
+}
+
+.new-task{
+    background-color: rgb(95, 153, 172);
 }
 
 .board-title{
