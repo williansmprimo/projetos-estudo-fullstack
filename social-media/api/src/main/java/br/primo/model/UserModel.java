@@ -10,12 +10,10 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "users")
 @Data
-@EqualsAndHashCode(callSuper=false)
 public class UserModel extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
