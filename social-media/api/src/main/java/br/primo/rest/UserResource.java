@@ -1,13 +1,11 @@
 package br.primo.rest;
 import java.util.ArrayList;
 
-import org.hibernate.annotations.Parameter;
-
-import br.primo.dto.CreateUserRequest;
-import br.primo.dto.ErrorResponse;
-import br.primo.dto.FieldError;
-import br.primo.dto.ListUserResponse;
-import br.primo.model.UserModel;
+import br.primo.domain.model.User;
+import br.primo.rest.dto.CreateUserRequest;
+import br.primo.rest.dto.ErrorResponse;
+import br.primo.rest.dto.FieldError;
+import br.primo.rest.dto.ListUserResponse;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Validator;
@@ -40,7 +38,7 @@ class UserResource {
             return Response.status(400).entity(error).build();
         }
 
-        var userModel = new UserModel();
+        var userModel = new User();
         userModel.setName(user.getName());
         userModel.setAge(user.getAge());
 
@@ -65,7 +63,7 @@ class UserResource {
             return Response.status(400).entity(error).build();
         }
 
-        UserModel userModel = UserModel.findById(id);
+        User userModel = User.findById(id);
         userModel.setName(user.getName());
         userModel.setAge(user.getAge());
 
@@ -81,9 +79,9 @@ class UserResource {
 
     @GET
     public Response list(){
-        var list = UserModel.listAll()
+        var list = User.listAll()
             .stream()
-            .map(i -> new ListUserResponse((UserModel) i))
+            .map(i -> new ListUserResponse((User) i))
             .toList();
         return Response.ok(list).build();
     }

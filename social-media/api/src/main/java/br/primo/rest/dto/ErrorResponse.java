@@ -1,4 +1,4 @@
-package br.primo.dto;
+package br.primo.rest.dto;
 
 import java.util.Collection;
 import java.util.Set;

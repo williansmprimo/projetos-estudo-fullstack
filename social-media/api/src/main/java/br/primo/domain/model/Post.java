@@ -1,4 +1,4 @@
-package br.primo.model;
+package br.primo.domain.model;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "posts")
 @Data
-public class PostModel extends PanacheEntityBase{
+public class Post extends PanacheEntityBase{
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -33,7 +33,7 @@ public class PostModel extends PanacheEntityBase{
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserModel user;
+    private User user;
 
     @PrePersist
     public void prepersist(){

@@ -1,10 +1,10 @@
 package br.primo.rest;
 
-import br.primo.dto.CreatePostRequest;
-import br.primo.dto.PostResponse;
-import br.primo.model.PostModel;
-import br.primo.model.UserModel;
-import br.primo.repository.PostReposotory;
+import br.primo.domain.model.Post;
+import br.primo.domain.model.User;
+import br.primo.domain.repository.PostReposotory;
+import br.primo.rest.dto.CreatePostRequest;
+import br.primo.rest.dto.PostResponse;
 import io.quarkus.panache.common.Sort;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -27,11 +27,11 @@ public class PostResource {
     @POST
     @Transactional
     public Response create(@PathParam("userId") Long id, CreatePostRequest request){
-        UserModel user = UserModel.findById(id);
+        User user = User.findById(id);
         if(user == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        var post = new PostModel();
+        var post = new Post();
         post.setText(request.getText());
         post.setUser(user);
         repository.persist(post);
@@ -41,7 +41,7 @@ public class PostResource {
 
     @GET
     public Response list(@PathParam("userId") Long id){
-        var user = UserModel.findById(id);
+        var user = User.findById(id);
         if(user == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }

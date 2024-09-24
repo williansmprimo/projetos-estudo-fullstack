@@ -20,7 +20,7 @@ docker image ls
 docker ps
 docker stop <>
 docker rm <>
-# docker run --rm -e POSTGRES_PASSWORD=root -d --name postgress_db postgres -p 5432:5432
+-> docker run --rm -e POSTGRES_PASSWORD=root -d --name postgress_db postgres -p 5432:5432
 docker rm $(docker ps --filter status=exited -q)
 docker run -e POSTGRES_PASSWORD=root -e POSTGRES_USER=postgres -d --network host --name postgres_db postgres
 docker exec -it postgres_db /bin/bash

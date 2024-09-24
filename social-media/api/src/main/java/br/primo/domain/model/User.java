@@ -1,4 +1,4 @@
-package br.primo.model;
+package br.primo.domain.model;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
@@ -14,7 +14,7 @@ import lombok.Data;
 @Entity
 @Table(name = "users")
 @Data
-public class UserModel extends PanacheEntityBase {
+public class User extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;

@@ -1,8 +1,8 @@
-package br.primo.dto;
+package br.primo.rest.dto;
 
 import java.time.LocalDateTime;
 
-import br.primo.model.PostModel;
+import br.primo.domain.model.Post;
 import lombok.Data;
 
 @Data
@@ -15,7 +15,7 @@ public class PostResponse {
         this.time = time;
     }
 
-    public static PostResponse fromPost(PostModel post){
+    public static PostResponse fromPost(Post post){
         return new PostResponse(post.getText(), post.getTime());
     }
 }

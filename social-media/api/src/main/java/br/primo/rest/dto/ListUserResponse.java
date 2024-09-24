@@ -1,6 +1,6 @@
-package br.primo.dto;
+package br.primo.rest.dto;
 
-import br.primo.model.UserModel;
+import br.primo.domain.model.User;
 import lombok.Data;
 
 @Data
@@ -9,7 +9,7 @@ public class ListUserResponse {
     private String name;
     private Integer age;
 
-    public ListUserResponse(UserModel user){
+    public ListUserResponse(User user){
         this.setName(user.getName());
         this.setAge(user.getAge());
     }
