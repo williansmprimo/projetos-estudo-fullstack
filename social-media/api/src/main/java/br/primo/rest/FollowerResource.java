@@ -7,11 +7,13 @@ import br.primo.rest.dto.FollowRequest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -36,6 +38,20 @@ public class FollowerResource {
             follower.setUser(user);
             follower.setFollower(followerUser);
             followerRepository.persist(follower);
+        }
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Transactional
+    public Response unFollow(@PathParam("userId") Long userId, @QueryParam("followerId") Long followerId){
+        User user = User.findById(userId);
+        User followerUser = User.findById(followerId);
+        if(user == null || followerUser == null){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        if(followerRepository.follows(user, followerUser)){
+            followerRepository.unFollow(userId, followerId);;
         }
         return Response.ok().build();
     }
