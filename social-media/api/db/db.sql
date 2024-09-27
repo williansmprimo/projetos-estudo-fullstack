@@ -1,5 +1,4 @@
 create database socialmedia;
-# \c socialmedia
 
 create table users(
     id bigserial not null primary key,

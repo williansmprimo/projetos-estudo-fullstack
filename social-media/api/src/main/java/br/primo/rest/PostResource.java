@@ -59,7 +59,7 @@ public class PostResource {
         }
 
         if(!followerRepository.follows(user, follower)){
-            return Response.status(Response.Status.BAD_REQUEST)
+            return Response.status(Response.Status.FORBIDDEN)
                 .entity("Não é possível listar os posts de um usuário que você não segue.")
                 .build();
         }

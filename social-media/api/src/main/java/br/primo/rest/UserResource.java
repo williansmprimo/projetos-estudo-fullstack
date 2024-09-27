@@ -49,7 +49,7 @@ class UserResource {
         }
 
         userModel.persist();
-        return Response.ok(userModel).build();
+        return Response.status(Response.Status.CREATED).entity(userModel).build();
     }
 
     @PUT
