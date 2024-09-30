@@ -11,8 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import br.primo.domain.model.Follower;
+import br.primo.domain.model.Post;
 import br.primo.domain.model.User;
 import br.primo.domain.repository.FollowerRepository;
+import br.primo.domain.repository.PostReposotory;
 import br.primo.rest.dto.CreatePostRequest;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
@@ -28,26 +30,37 @@ public class PostResourceTest {
     @Inject
     FollowerRepository followerRepository;
 
-    User userA;
-    User userB;
+    @Inject
+    PostReposotory postReposotory;
+
+    User userA, userB;
 
     @BeforeEach
     @Transactional
     public void setUP(){
+        Follower.deleteAll();
+        Post.deleteAll();
+        User.deleteAll();
+
         userA = new User();
         userA.setAge(20);
         userA.setName("Fulano");
         userA.persist();
 
         userB = new User();
-        userB.setAge(201);
+        userB.setAge(21);
         userB.setName("Cicrano");
         userB.persist();
 
         Follower follower = new Follower();
         follower.setUser(userA);
         follower.setFollower(userB);
-        followerRepository.persist(follower);
+        follower.persist();
+
+        var post = new Post();
+        post.setText("post text");
+        post.setUser(userA);
+        post.persist();
     }
     
     @Test
@@ -91,7 +104,7 @@ public class PostResourceTest {
             .pathParam("userId", userA.getId())
             .header("followerId", userB.getId())
         .when()
-            .post()
+            .get()
         .then()
             .statusCode(200)
             .body("size()", is(1));

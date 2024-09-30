@@ -5,19 +5,37 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import br.primo.domain.model.Follower;
+import br.primo.domain.model.Post;
+import br.primo.domain.model.User;
 import br.primo.rest.dto.CreateUserRequest;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.MediaType;
 
 @QuarkusTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserResourceTeste {
+
+    @BeforeEach
+    @Transactional
+    public void setUP(){
+        Follower.deleteAll();
+        Post.deleteAll();
+        User.deleteAll();
+
+        var userA = new User();
+        userA.setAge(20);
+        userA.setName("Fulano");
+        userA.persist();
+    }
 
     @Test
     @Order(1)
