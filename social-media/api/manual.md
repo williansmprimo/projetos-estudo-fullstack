@@ -23,6 +23,12 @@ docker rm <>
 -> docker run --rm -e POSTGRES_PASSWORD=root -d --name postgress_db postgres -p 5432:5432
 docker rm $(docker ps --filter status=exited -q)
 docker run -e POSTGRES_PASSWORD=root -e POSTGRES_USER=postgres -d --network host --name postgres_db postgres
+-> docker network create -d bridge social-net
+-> docker run -e POSTGRES_PASSWORD=root -e POSTGRES_USER=postgres -d --network host --name postgres_db postgres
+-> docker run --rm -i --network host --name social-media social-media -p 8080:8080
 docker exec -it postgres_db /bin/bash
 createdb social-media
 \c social-media
+
+mvn clean package
+java -jar ./target/quarkus-app/quarkus-run.jar
