@@ -1,0 +1,11 @@
+{
+    "name": "volumes",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "nodemon main.js"
+    },
+    "dependencies":{
+        "nodemon": "3.1.7",
+        "express": "4.21.1"
+    }
+}
